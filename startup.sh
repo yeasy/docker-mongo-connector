@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 echo "rs.isMaster()" > is_master_check
 is_master_result=`mongo --host mongo< is_master_check`
 
