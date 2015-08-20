@@ -39,7 +39,7 @@ Config timezone to Asia/Shanghai.
 
 
 # Install mongo-connector
-Install the mongo-connector:2.0.
+Install the mongo-connector:2.1.
 
 This image is officially supported on Docker version 1.7.1.
 
