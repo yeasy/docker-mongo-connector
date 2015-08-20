@@ -11,6 +11,9 @@ RUN pip install mongo-connector==2.0
 
 COPY startup.sh /tmp/
 
+COPY mongo /usr/bin/
+RUN chmod a+x /usr/bin/mongo
+
 # Sample usage when no commands is given outside
 CMD ["/bin/bash", "/tmp/startup.sh"]
 
