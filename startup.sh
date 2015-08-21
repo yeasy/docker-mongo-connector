@@ -19,4 +19,7 @@ done
 
 sleep 1
 
-mongo-connector --auto-commit-interval=0 -m mongo:27017 -t elasticsearch:9200 -d elastic_doc_manager
+mongo="${MONGO:-mongo}"
+elasticsearch="${ELASTICSEARCH:-elasticsearch}"
+
+mongo-connector --auto-commit-interval=0 -m ${mongo}:27017 -t ${elasticsearch}:9200 -d elastic_doc_manager

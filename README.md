@@ -22,6 +22,8 @@ FROM yeasy/mongo-connector:latest
 ```
 
 ## Local Run
+By default, it will connect mongo node ($MONGO or the mongo host) and elasticsearch node ($ELASTICSEARCH or the elasticsearch host).
+
 Boot two containers with name mongo (config to cluster) and elasticsearch.
 ```sh
 $ docker run -d --link=mongo:mongo --link=elasticsearch:elasticsearch yeasy/mongo-connector
