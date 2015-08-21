@@ -16,6 +16,8 @@ RUN chmod a+x /usr/bin/mongo
 
 VOLUME /data
 
+RUN echo "["Collection(Database(MongoClient('mongo', 27017), 'local'), 'oplog.rs')", 6185434045103472641]" > /data/oplog.ts
+
 # Sample usage when no commands is given outside
 CMD ["/bin/bash", "/tmp/startup.sh"]
 
