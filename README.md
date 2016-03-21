@@ -22,7 +22,7 @@ FROM yeasy/mongo-connector:latest
 ```
 
 ## Local Run
-By default, it will connect mongo node ($MONGO or the mongo host) and elasticsearch node ($ELASTICSEARCH or the elasticsearch host).
+By default, it will connect mongo node (`$MONGO` or the mongo host, on port `$MONGOPORT` or 27017) and elasticsearch node (`$ELASTICSEARCH` or the elasticsearch host, on port $ELASTICPORT or 9200).
 
 Boot two containers with name mongo (config to cluster) and elasticsearch.
 ```sh
