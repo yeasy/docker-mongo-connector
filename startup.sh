@@ -7,7 +7,7 @@ elasticport="${ELASTICPORT:-9200}"
 
 
 function _mongo() {
-    mongo --quiet --host ${MONGO} <<EOF
+    mongo --quiet --host ${mongo} --port ${mongoport} <<EOF
     $@
 EOF
 }
