@@ -1,32 +1,31 @@
 #!/bin/bash
+set -euo pipefail
 
-mongo="${MONGO:-mongo}"
-mongoport="${MONGOPORT:-27017}"
-elasticsearch="${ELASTICSEARCH:-elasticsearch}"
-elasticport="${ELASTICPORT:-9200}"
+mongo_host="${MONGO:-mongo}"
+mongo_port="${MONGOPORT:-27017}"
+elastic_host="${ELASTICSEARCH:-elasticsearch}"
+elastic_port="${ELASTICPORT:-9200}"
+doc_manager="${DOC_MANAGER:-mongo_connector.doc_managers.elastic2_doc_manager}"
 
+python3 - <<PY
+import time
+from pymongo import MongoClient
 
-function _mongo() {
-    mongo --quiet --host ${mongo} --port ${mongoport} <<EOF
-    $@
-EOF
-}
+client = MongoClient("mongodb://${mongo_host}:${mongo_port}", serverSelectionTimeoutMS=2000)
+while True:
+    try:
+        hello = client.admin.command("hello")
+        if hello.get("isWritablePrimary") or hello.get("ismaster"):
+            break
+    except Exception:
+        pass
+    print("Waiting for Mongod node to become primary...")
+    time.sleep(3)
+PY
 
-is_master_result="false"
-expected_result="true"
-
-while true;
-do
-  if [ "${is_master_result}" == "${expected_result}" ] ; then
-    is_master_result=$(_mongo "rs.isMaster().ismaster")
-    echo "Waiting for Mongod node to assume primary status..."
-    sleep 3
-  else
-    echo "Mongod node is now primary"
-    break;
-  fi
-done
-
-sleep 1
-
-mongo-connector --auto-commit-interval=0 --oplog-ts=/data/oplog.ts -m ${mongo}:${mongoport} -t ${elasticsearch}:${elasticport} -d elastic_doc_manager
+exec mongo-connector \
+  --auto-commit-interval=0 \
+  --oplog-ts=/data/oplog.ts \
+  -m "${mongo_host}:${mongo_port}" \
+  -t "${elastic_host}:${elastic_port}" \
+  -d "${doc_manager}"

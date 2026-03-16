@@ -10,7 +10,7 @@ Docker images for the mongo-connector.
 For more information about this image and its history, please see the relevant manifest file in the [`yeasy/docker-mongo-connector` GitHub repo](https://github.com/yeasy/docker-mongo-connector).
 
 # What is docker-mongo-connector?
-Docker image with mongo-connector installed. The image is built based on [Python 3.4.3](https://hub.docker.com/_/python/).
+Docker image with mongo-connector installed. The image is built based on [Python 3.11 slim](https://hub.docker.com/_/python/).
 
 # How to use this image?
 The docker image is auto built at [https://registry.hub.docker.com/u/yeasy/mongo-connector/](https://registry.hub.docker.com/u/yeasy/mongo-connector/).
@@ -32,16 +32,20 @@ $ docker run -d --link=mongo:mongo --link=elasticsearch:elasticsearch yeasy/mong
 It will connect the two containers together to sync data between each other.
 
 # Which image is based on?
-The image is based on official `python:3.4.3`.
+The image is based on official `python:3.11-slim`.
 
 # What has been changed?
 
 ## Config TZ
-Config timezone to Asia/Shanghai.
+Config timezone to UTC.
 
 
 # Install mongo-connector
-Install the mongo-connector:2.1.
+Install `mongo-connector:3.1.1` and `elastic2-doc-manager`.
+
+## Compatibility constraint
+
+`mongo-connector` is a legacy upstream project and does not track recent MongoDB/Elasticsearch major versions. This image updates to the latest released connector line, but compatibility still depends on the connector project itself.
 
 This image is officially supported on Docker version 1.7.1.
 
